@@ -84,10 +84,13 @@ class game:     # class containing all game assets and mainloop
         self.map = np.zeros((self.height,self.width),int)   # map is an np array filled with zeros
     def printmap(self):     # function to print the map
         lmap = self.map.tolist()    # converting map from array to lists in lists for convenient merging
-        for row in lmap:    # iterating thru rows
-            print(len(row) * '────' + '─')  # printing separator with dynamic length before each row
-            print('│ '+' │ '.join(list(map(str, row)))+' │')  # printing all fields in a row separated by a │
-        print(len(row) * '────' + '─')  # print last map
+        print('   ┃ '+' │ '.join(map(str, list(range(1, self.width+1))))+' │')
+        print('━━━━'+self.width * '━━━━')
+        rownr = 1  # number of current row
+        for row in lmap:    # iterating thru
+            print(' '+str(rownr)+' ┃ '+' │ '.join(list(map(str, row)))+' │')  # printing all fields in a row separated by a │
+            print('────'+len(row) * '────')  # printing separator with dynamic length afer each row
+            rownr += 1  # Number of next row
     def play(self):         # function containing mainloop
         print('Welcome to a fun game of TicTacToe')   # welcome to play my game
         print('To win you have to place',game.inarow,'of your Symbols in a diagonal or horizontal row.')
