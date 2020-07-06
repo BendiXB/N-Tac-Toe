@@ -29,8 +29,8 @@ class player:   # class containing the players functions
     def checkforwin(self):  # method to check for a win
         print(20*'\n')      # scroll old map out of the users view
         won = False     # var to indicate if player has won
-        for positionheight in range(game.height):
-            for positionwidth in range(game.width):
+        for positionheight in range(game.height):   # iterate thou column
+            for positionwidth in range(game.width): # iterate thou rows
                 # check horizontally
                 horizontallist = [] # list used to check the map
                 try:
@@ -68,7 +68,7 @@ class player:   # class containing the players functions
                     diagonalleftlist = []
                 print(diagonalleftlist)
                 if diagonalleftlist.count(self.symbol) == len(diagonalleftlist) and len(diagonalleftlist) == game.inarow:
-                    won = True  # game is won when exacly inarow times the players symbol is found in a row
+                    won = True  # game is won when exactly inarow times the players symbol is found in a row
         if won:     # routine to start if player has won
             print(self.name,' won!')    # print winners name
             game.map.fill(self.symbol)  # fill map with winner's symbol to break mainloop
