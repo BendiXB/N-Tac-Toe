@@ -80,7 +80,7 @@ class game:     # class containing all game assets and mainloop
             rownr += 1  # Number of next row
     def play(self):         # function containing mainloop
         print('Welcome to a fun game of TicTacToe')   # welcome to play my game
-        print('To win you have to place',game.inarow,'of your Symbols in a diagonal or horizontal row.')
+        print('To win you have to place',game.inarow,'of your Symbols in a vertical, horizontal or diagonal row.')
         print('Currently',player1.name,'is playing against',player2.name +'.\n')
         self.printmap()     # print first map
         while count(self.map, 0) > 0:   # the game runs until all fields are filed
