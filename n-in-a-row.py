@@ -4,7 +4,7 @@ import numpy as np
 def count(array,variable):  # counts occurrence of variable in array
     number = 0
     for row in range(array.shape[0]): # iterating trough rows
-        for column in range(array.shape[1]): # iterating thou column in this row
+        for column in range(array.shape[1]): # iterating through column in this row
             if array[row,column] == variable:  # if variable is found
                 number += 1  # count one up
     return number   # function returns number of variables in given array
@@ -29,47 +29,35 @@ class player:   # class containing the players functions
     def checkforwin(self):  # method to check for a win
         print(20*'\n')      # scroll old map out of the users view
         won = False     # var to indicate if player has won
-        for positionheight in range(game.height):   # iterate thou column
-            for positionwidth in range(game.width): # iterate thou rows
-                # check horizontally
-                horizontallist = [] # list used to check the map
-                try:
-                    for step in range(game.inarow): # stepping inarow times to the right
-                        horizontallist.append(game.map[positionheight,positionwidth+step])  # appending steps to list
-                except IndexError:  # clear list if index goes out of map because it cant be a win
-                    horizontallist = []
-                if horizontallist.count(self.symbol) == len(horizontallist) and len(horizontallist) == game.inarow:
-                    won = True  # game is won when exacly inarow times the players symbol is found in a row
-                # check vertical
-                verticallist = [] # list used to check the map
-                try:
-                    for step in range(game.inarow): # stepping inarow times down
-                        verticallist.append(game.map[positionheight+step,positionwidth])  # appending steps to list
-                except IndexError:  # clear list if index goes out of map because it cant be a win
-                    verticallist = []
-                if verticallist.count(self.symbol) == len(verticallist) and len(verticallist) == game.inarow:
-                    won = True  # game is won when exacly inarow times the players symbol is found in a row
-                # check diagonal right
-                diagonalrightlist = []  # list used to check the map
-                try:
-                    for step in range(game.inarow):  # stepping inarow times diagonaly right
-                        diagonalrightlist.append(game.map[positionheight + step, positionwidth+step])  # appending steps to list
-                except IndexError:  # clear list if index goes out of map because it cant be a win
-                    diagonalrightlist = []
-                print(diagonalrightlist)
-                if diagonalrightlist.count(self.symbol) == len(diagonalrightlist) and len(diagonalrightlist) == game.inarow:
-                    won = True  # game is won when exacly inarow times the players symbol is found in a row
-                # check diagonal left
-                diagonalleftlist = []  # list used to check the map
-                try:
-                    for step in range(game.inarow):  # stepping inarow times diagonaly left
-                        diagonalleftlist.append(game.map[positionheight + step, positionwidth - step])  # appending steps to list
-                except IndexError:  # clear list if index goes out of map because it cant be a win
-                    diagonalleftlist = []
-                print(diagonalleftlist)
-                if diagonalleftlist.count(self.symbol) == len(diagonalleftlist) and len(diagonalleftlist) == game.inarow:
-                    won = True  # game is won when exactly inarow times the players symbol is found in a row
-        if won:     # routine to start if player has won
+        inrows = []     # list of all combinations of symbols in a rows horisontaly, verticaly and diagonal (inrow) to check for a win
+        for positionheight in range(game.height):   # iterate through column
+            for positionwidth in range(game.width): # iterate through rows
+                horizontallist = []     # lists the symbols of each inrow will be added
+                verticallist = []
+                diagonalrightlist = []
+                diagonalleftlist = []
+                for step in range(game.inarow): # stepping inarow times
+                    try:
+                        horizontallist.append(game.map[positionheight,positionwidth+step])  # getting next step for inrow horisontaly
+                    except IndexError:  # excepting the case that a inrow goes out of board
+                        pass            # do nothing ang go on because these cases dont met winning conditions
+                    try:
+                        verticallist.append(game.map[positionheight + step, positionwidth]) # getting next step for inrow horisontaly
+                    except IndexError:  # excepting the case that a inrow goes out of board
+                        pass            # do nothing ang go on because these cases dont met winning conditions
+                    try:
+                        diagonalrightlist.append(game.map[positionheight + step, positionwidth + step]) # getting next step for inrow horisontaly
+                    except IndexError:  # excepting the case that a inrow goes out of board
+                        pass            # do nothing ang go on because these cases dont met winning conditions
+                    try:
+                        diagonalleftlist.append(game.map[positionheight + step, positionwidth - step])  # getting next step for inrow horisontaly
+                    except IndexError:  # excepting the case that a inrow goes out of board
+                        pass            # do nothing ang go on because these cases dont met winning conditions
+                inrows.extend([horizontallist,verticallist,diagonalrightlist,diagonalleftlist])
+        for inrow in inrows:    # iterating through all possible combinations of rows to check
+            if inrow.count(self.symbol) == len(inrow) and len(inrow) == game.inarow:
+                won = True  # if the inrow only consists on the players symbol and is inarow long the player wins
+        if won: # routine to start if player has won
             print(self.name,' won!')    # print winners name
             game.map.fill(self.symbol)  # fill map with winner's symbol to break mainloop
         else:   # nobody has won yet
@@ -83,13 +71,12 @@ class game:     # class containing all game assets and mainloop
         self.inarow = inarow    # symbols in a row needed to win
         self.map = np.zeros((self.height,self.width),int)   # map is an np array filled with zeros
     def printmap(self):     # function to print the map
-        lmap = self.map.tolist()    # converting map from array to lists in lists for convenient merging
         print('   ┃ '+' │ '.join(map(str, list(range(1, self.width+1))))+' │')
         print('━━━━'+self.width * '━━━━')
         rownr = 1  # number of current row
-        for row in lmap:    # iterating thru
+        for row in self.map.tolist():    # iterating through rows of map
             print(' '+str(rownr)+' ┃ '+' │ '.join(list(map(str, row)))+' │')  # printing all fields in a row separated by a │
-            print('────'+len(row) * '────')  # printing separator with dynamic length afer each row
+            print('────'+len(row) * '────')  # printing separator with dynamic length after each row
             rownr += 1  # Number of next row
     def play(self):         # function containing mainloop
         print('Welcome to a fun game of TicTacToe')   # welcome to play my game
