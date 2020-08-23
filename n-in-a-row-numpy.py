@@ -3,16 +3,16 @@ import numpy as np
 # useful function for counting in array
 def count(array,variable):  # counts occurrence of variable in array
     number = 0
-    for row in range(array.shape[0]):           # iterating trough rows
-        for column in range(array.shape[1]):    # iterating through column in this row
+    for row in range(array.shape[0]):           # iterating thru rows
+        for column in range(array.shape[1]):    # iterating thru column in this row
             if array[row,column] == variable:   # if variable is found
                 number += 1                     # count one up
     return number       # function returns number of variables in given array
 # useful function for generating array of strings
 def generatestrarray(width, height, string):
     array = np.empty([width, height], dtype='object')
-    for row in range(array.shape[0]):           # iterating trough rows
-        for column in range(array.shape[1]):    # iterating through column in this row
+    for row in range(array.shape[0]):           # iterating thru rows
+        for column in range(array.shape[1]):    # iterating thru column in this row
             array[row, column] = string         # set cell to given string
     return array    # return filled array
 # formatting class
@@ -47,8 +47,8 @@ class player:   # class containing the players functions
         print(formatting.pagebreak)     # scroll old map out of the users view
         won = False     # var to indicate if player has won
         inrows = []     # list of all combinations of symbols in a rows horizontally, vertically and diagonal (inrow) to check for a win
-        for positionheight in range(game.height):   # iterate through column
-            for positionwidth in range(game.width): # iterate through rows
+        for positionheight in range(game.height):   # iterate thru column
+            for positionwidth in range(game.width): # iterate thru rows
                 horizontallist = []     # lists the symbols of each inrow will be added
                 verticallist = []
                 diagonalrightlist = []
@@ -71,7 +71,7 @@ class player:   # class containing the players functions
                     except IndexError:  # excepting the case that a inrow goes out of board
                         pass            # do nothing and go on because these cases dont met winning conditions
                 inrows.extend([horizontallist,verticallist,diagonalrightlist,diagonalleftlist])
-        for inrow in inrows:    # iterating through all possible combinations of rows to check
+        for inrow in inrows:    # iterating thru all possible combinations of rows to check
             if inrow.count(self.symbol) == len(inrow) and len(inrow) == game.inarow:
                 won = True      # if the inrow only consists on the players symbol and is inarow long the player wins
         if won:                         # routine to start if player has won
@@ -93,7 +93,7 @@ class game:     # class containing all game assets and mainloop
         print('    ┃ '+formatting.blue+(formatting.end+' │ '+formatting.blue).join(map(str, list(range(1, self.width+1))))+formatting.end+' │')  # print top of board by printing column numbers separated by |
         print('┍━━━╋'+(self.width - 1)*'━━━┿'+'━━━┥')           # print separator between top line and map
         rownr = 1  # number of current row
-        for row in self.map.tolist():    # iterating through rows of map except last
+        for row in self.map.tolist():    # iterating thru rows of map except last
             print('│ '+formatting.red+str(rownr)+formatting.end+' ┃ '+' │ '.join(row)+' │')  # printing all fields in a row separated by a │ with line number
             if rownr == len(self.map.tolist()):                     # if last row:
                 print('└───┸' + (self.width - 1) * '───┴' + '───┘') # print last line
