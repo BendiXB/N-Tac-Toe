@@ -8,6 +8,8 @@ To win the player has to place his symbols in a horizontal, vertical or diagonal
 
 ![A demonstartion.](images/demonstaration.gif)
 
+![A demonstartion.](images/size.gif)
+
 ## Setup
 0. Download this repository from github or directly clone it.
 `git clone https://github.com/BendiXB/N-Tac-Toe.git`
